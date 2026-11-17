@@ -1,0 +1,10 @@
+# Coming up. One event per line, five parts split by |
+#   date | time | name | place | tag
+# The tag is the little box on the right (COHORT, OPEN TO ALL...). It can be empty.
+# Events show in the order written here. Delete past ones when you like.
+
+Tue Jan 5  | 7 PM    | [Week 1 meetup: the pledge] | [Venue], Minneapolis      | Cohort
+Sat Jan 9  | 10 AM   | [Morning walk and coffee]   | [Meeting spot], Saint Paul | Open to all
+Tue Jan 12 | 7 PM    | [Week 2 meetup]             | [Venue], Minneapolis      | Cohort
+Fri Jan 15 | 8 PM    | [No-phone dance night]      | [Venue]                   | Open to all
+Sat Feb 6  | 6 PM    | [Show and tell party]       | [Venue]                   | Friends welcome
