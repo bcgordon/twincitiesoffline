@@ -1,0 +1,138 @@
+# Pages CMS (https://pagescms.org): the editing screens for this site.
+# Each entry below is one item in the sidebar. Saving commits to main,
+# and Cloudflare publishes the change in about a minute.
+
+media:
+  input: site/files
+  output: /files
+  categories: [document]
+  rename: safe
+
+settings:
+  commit:
+    identity: user
+
+content:
+  - name: page
+    label: Page text
+    type: file
+    path: content/page.json
+    format: json
+    fields:
+      - name: intro
+        label: Line under the big title
+        type: text
+      - name: cohort_heading
+        label: Next cohort · heading
+        description: The big line in the dark box.
+        type: string
+      - name: cohort_body
+        label: Next cohort · details
+        description: "For a link, write [words](https://address)."
+        type: text
+      - name: bulletin_heading
+        label: Email signup · heading
+        type: string
+      - name: group_chat
+        label: Signal group · words
+        type: text
+      - name: note
+        label: A note from us
+        description: The typed letter. Leave a blank line between paragraphs.
+        type: text
+      - name: why
+        label: Why we're doing this
+        description: Leave a blank line between paragraphs.
+        type: text
+      - name: coming_soon_heading
+        label: Coming soon sign · heading
+        description: Only shows while "Coming soon" is on in Settings.
+        type: string
+      - name: coming_soon_body
+        label: Coming soon sign · words
+        description: "To add a signup link: [Sign up if you're interested](https://address)"
+        type: text
+
+  - name: events
+    label: Events
+    type: file
+    path: content/events.json
+    format: json
+    list: true
+    fields:
+      - name: date
+        label: Date
+        description: As it should read, e.g. Tue Jan 5
+        type: string
+      - name: time
+        label: Time
+        description: e.g. 7 PM
+        type: string
+      - name: name
+        label: Event
+        type: string
+      - name: place
+        label: Place
+        description: e.g. Venue name, Minneapolis
+        type: string
+      - name: tag
+        label: Tag
+        description: The little box on the right, e.g. Cohort, Open to all. Can be empty.
+        type: string
+
+  - name: steps
+    label: How the month works
+    type: file
+    path: content/steps.json
+    format: json
+    list: true
+    fields:
+      - name: title
+        label: Step
+        type: string
+      - name: body
+        label: Words
+        type: text
+
+  - name: settings
+    label: Settings and links
+    type: file
+    path: content/settings.json
+    format: json
+    fields:
+      - name: coming_soon
+        label: Coming soon
+        description: On = visitors see the blurred page and the sign; the team gets in with the password. Turn off on launch day.
+        type: boolean
+      - name: eyebrow
+        label: Small line above the title
+        type: string
+      - name: signal_link
+        label: Signal group invite link
+        type: string
+      - name: signup_action
+        label: Email signup form address
+        description: From your newsletter service (e.g. a Buttondown embed address). Empty shows "Signups open soon".
+        type: string
+      - name: cohort_link
+        label: "\"Save me a spot\" link"
+        description: A form, or mailto:you@example.com. Empty hides the button.
+        type: string
+      - name: add_event_link
+        label: "\"Add your event\" link"
+        description: Empty hides it.
+        type: string
+      - name: calendar_pdf
+        label: Printable calendar (PDF)
+        description: Upload the PDF here. Empty hides the link.
+        type: file
+        options:
+          extensions: [pdf]
+      - name: calendar_note
+        label: Note next to "Coming up"
+        description: e.g. Sample listings. Empty hides it.
+        type: string
+      - name: contact_email
+        label: Contact email (footer)
+        description: Empty hides it.
+        type: string

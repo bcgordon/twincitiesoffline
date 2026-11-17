@@ -1,0 +1,11 @@
+{
+  "intro": "[Your line: what the group is, in a sentence.]",
+  "cohort_heading": "[Month, 2027]: 30 days, no smartphone",
+  "cohort_body": "Weekly meetups on [day] at [venue]. 10 to 30 neighbors. Borrow a dumbphone from [dumb.co](https://dumb.co) if you need one.",
+  "bulletin_heading": "Get the calendar by email.",
+  "group_chat": "[Your words: what the Signal group is for.]",
+  "note": "Dear Twin Cities,\n\n[Your letter to the city, typed out.]\n\n[Your name]",
+  "why": "[Your words: how it started and who's in it.]\n\n[Your words: what a month offline is like.]",
+  "coming_soon_heading": "Coming soon",
+  "coming_soon_body": "We're getting things ready. Check back soon."
+}

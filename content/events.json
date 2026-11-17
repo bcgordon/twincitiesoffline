@@ -1,0 +1,37 @@
+[
+  {
+    "date": "Tue Jan 5",
+    "time": "7 PM",
+    "name": "[Week 1 meetup: the pledge]",
+    "place": "[Venue], Minneapolis",
+    "tag": "Cohort"
+  },
+  {
+    "date": "Sat Jan 9",
+    "time": "10 AM",
+    "name": "[Morning walk and coffee]",
+    "place": "[Meeting spot], Saint Paul",
+    "tag": "Open to all"
+  },
+  {
+    "date": "Tue Jan 12",
+    "time": "7 PM",
+    "name": "[Week 2 meetup]",
+    "place": "[Venue], Minneapolis",
+    "tag": "Cohort"
+  },
+  {
+    "date": "Fri Jan 15",
+    "time": "8 PM",
+    "name": "[No-phone dance night]",
+    "place": "[Venue]",
+    "tag": "Open to all"
+  },
+  {
+    "date": "Sat Feb 6",
+    "time": "6 PM",
+    "name": "[Show and tell party]",
+    "place": "[Venue]",
+    "tag": "Friends welcome"
+  }
+]
