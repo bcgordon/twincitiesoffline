@@ -100,7 +100,34 @@ const signup = s.signup_action
 
 const description = read("content/intro.md").trim().replace(/\[|\]|\(.*?\)|\*/g, "");
 
+// Coming soon: blur the page and put the sign over it. Team members who
+// enter the password see the real page (functions/_middleware.js).
+const soon = /^(on|yes|true)$/i.test(s.coming_soon || "");
+const comingSoon = soon
+  ? `<div id="coming-soon" class="soon-cover">
+  <div class="sign" role="dialog" aria-modal="true" aria-labelledby="sign-title">
+    <span class="tape tape-left" aria-hidden="true"></span>
+    <span class="tape tape-right" aria-hidden="true"></span>
+    <p class="eyebrow">Minneapolis · Saint Paul</p>
+    <p id="sign-title" class="sign-title">Twin Cities Offline</p>
+    <div class="sign-text">${markdown(read("content/coming-soon.md"), 2)}</div>
+    <form class="team" action="/__team" method="post">
+      <label for="team-password">On the team? Enter the password</label>
+      <div class="team-row">
+        <input id="team-password" name="password" type="password" autocomplete="current-password" required>
+        <button type="submit">Let me in</button>
+      </div>
+      <p id="team-wrong" class="team-wrong" hidden>That's not it. Try again.</p>
+    </form>
+  </div>
+</div>`
+  : "";
+
 const values = {
+  robots: soon ? `<meta name="robots" content="noindex">` : "",
+  body_class: soon ? ` class="is-soon"` : "",
+  main_attrs: soon ? ` inert aria-hidden="true"` : "",
+  coming_soon: comingSoon,
   description: escape(description),
   eyebrow: inline(s.eyebrow || ""),
   intro: markdown(read("content/intro.md")),

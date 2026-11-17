@@ -6,5 +6,6 @@ The site for Twin Cities Offline, a Month Offline cohort (offline.community, pho
 - **No images** for now (BC's call, Nov 17 2026). The typed note is set in type, not a scan.
 - **Words:** BC writes the copy. `[Brackets]` mark text still to come. Fix typos only, unless asked.
 - **How it's built:** text lives in `content/`; `template.html` holds the layout; `node build.js` writes `dist/`; Cloudflare Pages runs that on every push to `main`. Keep it dependency-free, and keep it free of trackers and third-party requests.
+- **Coming soon:** `coming_soon` in `content/settings.txt` blurs the page behind a sign. `functions/_middleware.js` lets the team past it with the `SITE_PASSWORD` secret, which lives in Cloudflare. Never put the password in the repo or in chat logs you write.
 - **Readable:** text is big (body 20px) and the page has to work at phone width.
 - **Changes arrive by pull request.** BC merges. Never push to `main`.

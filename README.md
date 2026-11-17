@@ -10,7 +10,8 @@ Everything you'd want to change is in `content/`. Edit a file on GitHub (open it
 
 | File | What it is |
 |---|---|
-| `content/settings.txt` | Links: Signal group, email signup, printable calendar, "Save me a spot", contact email, and the small line above the title |
+| `content/coming-soon.md` | The words on the "Coming soon" sign. Add a signup link here when you have one, like `[Sign up if you're interested](https://...)` |
+| `content/settings.txt` | `coming_soon` on or off, plus links: Signal group, email signup, printable calendar, "Save me a spot", contact email, and the small line above the title |
 | `content/intro.md` | The line under the big title |
 | `content/cohort.md` | The dark "Next cohort" box. The line starting with `#` is its heading |
 | `content/how-it-works.md` | The four steps. Each step starts with `## ` and its title |
@@ -28,6 +29,21 @@ In the `.md` files:
 When a setting in `settings.txt` is empty, the site leaves that piece out or shows "coming soon". Nothing breaks.
 
 **The printable calendar:** put the PDF in `site/` (for example `site/calendar.pdf`) and write `calendar_pdf: calendar.pdf` in `settings.txt`.
+
+## Coming soon and the team password
+
+While `coming_soon: on` is in `content/settings.txt`, visitors see the page blurred, with a "Coming soon" sign taped over it, and search engines are asked not to list it. On launch day, change it to `coming_soon: off`.
+
+The team gets past the sign by typing the password into the box on it. The site then remembers them for 30 days on that browser.
+
+The password is **not** stored in this repo, where anyone who can see the code could read it. It's kept in Cloudflare:
+
+- **Cloudflare dashboard → Workers & Pages → twincitiesoffline → Settings → Variables and Secrets → Add.**
+- Type: **Secret**. Name: `SITE_PASSWORD`. Value: the team password.
+- Add it for **Production** and for **Preview**, then redeploy (Deployments → ⋯ → Retry deployment).
+- To change the password, edit that secret and redeploy. Everyone then has to enter the new one.
+
+The check runs in `functions/_middleware.js`. The sign is a gate, not a safe: the page's text is still in the page source behind it. That's fine for a site that's about to be public, but don't put anything private on the page.
 
 ## Colors and type
 
@@ -75,4 +91,5 @@ That writes the finished site to `dist/`. Open `dist/index.html` through a local
 - `template.html`: the page layout, with `{{slots}}` that `build.js` fills
 - `site/`: styles, fonts, icon; copied as-is into the finished site
 - `build.js`: puts it together. It needs nothing but Node.
+- `functions/_middleware.js`: the team password check (Cloudflare Pages Functions)
 - `FONTS.md`: font licenses

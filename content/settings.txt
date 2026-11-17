@@ -3,6 +3,11 @@
 # Leave a value empty if you don't have it yet; the site handles that.
 # Lines starting with # are notes and are ignored.
 
+# While this is on, visitors see the page blurred with a "Coming soon"
+# sign over it (words in content/coming-soon.md). The team gets past it
+# with the password. Change to off on launch day.
+coming_soon: on
+
 # The small line above the big title
 eyebrow: Minneapolis · Saint Paul · A Month Offline cohort
 

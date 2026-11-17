@@ -238,3 +238,87 @@ h2 { font-size: 40px; letter-spacing: -0.02em; line-height: 1.05; }
   .sheet { padding: 28px 24px; transform: rotate(-0.5deg); }
   h2 { font-size: 34px; }
 }
+
+/* ---- Coming soon: the sign over the blurred page ---- */
+.is-soon { overflow: hidden; }
+.is-soon .page, .is-soon .ribbon { filter: blur(7px); pointer-events: none; user-select: none; }
+
+.soon-cover {
+  position: fixed;
+  inset: 0;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px 16px;
+  overflow-y: auto;
+  background: rgba(242, 237, 227, 0.35);
+}
+.sign {
+  position: relative;
+  width: 100%;
+  max-width: 540px;
+  margin: auto;
+  background: var(--fresh-sheet);
+  border: 1px solid var(--sheet-edge);
+  box-shadow: 0 2px 4px rgba(28, 26, 23, 0.1), 0 14px 36px rgba(28, 26, 23, 0.22);
+  padding: 48px 44px 36px;
+  transform: rotate(-1.2deg);
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+.tape {
+  position: absolute;
+  top: -13px;
+  width: 104px;
+  height: 28px;
+  background: rgba(236, 226, 196, 0.88);
+  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.08);
+}
+.tape-left { left: -22px; transform: rotate(-32deg); }
+.tape-right { right: -22px; transform: rotate(28deg); }
+.sign-title { font-size: clamp(42px, 9vw, 60px); font-weight: 800; line-height: 0.95; letter-spacing: -0.03em; }
+.sign-text { display: flex; flex-direction: column; gap: 12px; font-size: 20px; line-height: 1.5; }
+.sign-text h2 {
+  font-family: var(--typed);
+  font-weight: 400;
+  font-size: 30px;
+  letter-spacing: 0.02em;
+  color: var(--ribbon-red);
+}
+.sign-text a { font-weight: 800; }
+
+.team { margin-top: 18px; padding-top: 18px; border-top: 1px dashed var(--rule); display: flex; flex-direction: column; gap: 8px; }
+.team label { font-family: var(--mono); font-size: 14px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--graphite); }
+.team-row { display: flex; flex-wrap: wrap; gap: 8px; }
+.team input {
+  flex: 1 1 180px;
+  min-width: 0;
+  font: inherit;
+  font-size: 18px;
+  padding: 10px 12px;
+  border: 2px solid var(--ribbon-black);
+  border-radius: 6px;
+  background: var(--bond-paper);
+  color: var(--ribbon-black);
+}
+.team button {
+  font-family: var(--label);
+  font-weight: 800;
+  font-size: 13px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--bond-paper);
+  background: var(--ribbon-black);
+  border: 0;
+  border-radius: 999px;
+  padding: 10px 20px;
+  cursor: pointer;
+}
+.team button:hover { background: var(--ribbon-red); }
+.team-wrong { font-size: 17px; color: var(--ribbon-red); }
+
+@media (max-width: 600px) {
+  .sign { padding: 40px 24px 28px; transform: rotate(-0.8deg); }
+}
