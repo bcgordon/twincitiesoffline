@@ -97,8 +97,6 @@ const soon = s.coming_soon === true || /^(on|yes|true)$/i.test(str(s.coming_soon
 const comingSoon = soon
   ? `<div id="coming-soon" class="soon-cover">
   <div class="sign" role="dialog" aria-modal="true" aria-labelledby="sign-title">
-    <span class="tape tape-left" aria-hidden="true"></span>
-    <span class="tape tape-right" aria-hidden="true"></span>
     <p class="eyebrow">Minneapolis · Saint Paul</p>
     <p id="sign-title" class="sign-title">Twin Cities Offline</p>
     <div class="sign-text">${titled(page.coming_soon_heading, page.coming_soon_body, 2)}</div>
