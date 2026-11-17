@@ -6,33 +6,31 @@ It's one plain page with no tracking, no third-party scripts and no framework. T
 
 ## Changing what the site says
 
-Everything you'd want to change is in `content/`. Edit a file on GitHub (open it, click the pencil, then "Commit changes"). Cloudflare rebuilds the site by itself within a minute or two.
+**The easy way: Pages CMS.** Go to [app.pagescms.org](https://app.pagescms.org), sign in with GitHub, and open `twincitiesoffline`. The sidebar has four screens:
 
-| File | What it is |
-|---|---|
-| `content/coming-soon.md` | The words on the "Coming soon" sign. Add a signup link here when you have one, like `[Sign up if you're interested](https://...)` |
-| `content/settings.txt` | `coming_soon` on or off, plus links: Signal group, email signup, printable calendar, "Save me a spot", contact email, and the small line above the title |
-| `content/intro.md` | The line under the big title |
-| `content/cohort.md` | The dark "Next cohort" box. The line starting with `#` is its heading |
-| `content/how-it-works.md` | The four steps. Each step starts with `## ` and its title |
-| `content/events.txt` | The calendar, one event per line: `date \| time \| name \| place \| tag` |
-| `content/bulletin.md` | The heading on the email signup card |
-| `content/group-chat.md` | The words on the Signal card |
-| `content/note.md` | "A note from us", the typed letter |
-| `content/why.md` | "Why we're doing this" |
+- **Page text**: the intro line, the next cohort box, the note, "Why we're doing this", and the coming-soon sign
+- **Events**: the calendar, one row per event, with add, remove and drag-to-reorder
+- **How the month works**: the four steps
+- **Settings and links**: the coming-soon switch, the Signal link, the email signup address, the calendar PDF upload, and the contact email
 
-In the `.md` files:
+Click **Save** and Cloudflare publishes the change in about a minute.
+
+**Inviting the team.** In Pages CMS, open the repo's **Collaborators** page and invite people **by email**. They don't need a GitHub account. They can edit the words and upload the calendar PDF, but they can't change the site's setup.
+
+**First-time setup (once, by the repo owner).** Sign in at app.pagescms.org with GitHub. When it asks, install the Pages CMS GitHub app and give it access to `twincitiesoffline`.
+
+**Writing tips** (the boxes are plain text):
 - Leave a blank line between paragraphs.
 - `**bold**` makes **bold**, and `*italic*` makes *italic*.
 - `[words](https://example.com)` makes a link.
 
-When a setting in `settings.txt` is empty, the site leaves that piece out or shows "coming soon". Nothing breaks.
+Empty boxes are fine. The site leaves that piece out or shows "coming soon".
 
-**The printable calendar:** put the PDF in `site/` (for example `site/calendar.pdf`) and write `calendar_pdf: calendar.pdf` in `settings.txt`.
+**Without the CMS:** the same words live in `content/` as four small files (`page.json`, `events.json`, `steps.json`, `settings.json`). They can be edited on GitHub with the pencil button, but the CMS is friendlier. `.pages.yml` describes the CMS screens.
 
 ## Coming soon and the team password
 
-While `coming_soon: on` is in `content/settings.txt`, visitors see the page blurred, with a "Coming soon" sign taped over it, and search engines are asked not to list it. On launch day, change it to `coming_soon: off`.
+While **Coming soon** is switched on (Pages CMS → Settings and links), visitors see the page blurred, with a "Coming soon" sign taped over it, and search engines are asked not to list it. On launch day, switch it off.
 
 The team gets past the sign by typing the password into the box on it. The site then remembers them for 30 days on that browser.
 
@@ -88,6 +86,8 @@ That writes the finished site to `dist/`. Open `dist/index.html` through a local
 ## Files
 
 - `content/`: the words (see above)
+- `.pages.yml`: the Pages CMS editing screens
+- `site/files/`: uploads from Pages CMS (the calendar PDF)
 - `template.html`: the page layout, with `{{slots}}` that `build.js` fills
 - `site/`: styles, fonts, icon; copied as-is into the finished site
 - `build.js`: puts it together. It needs nothing but Node.

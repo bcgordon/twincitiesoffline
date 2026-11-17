@@ -1,4 +1,5 @@
-// Builds the site: reads the text in content/, fills in template.html,
+// Builds the site: reads the words in content/ (JSON files that Pages CMS
+// edits), fills in template.html,
 // and writes the finished site to dist/ (with everything in site/).
 // No packages needed. Run: node build.js
 
@@ -41,56 +42,46 @@ function markdown(text, headingLevel = 2) {
     .join("\n");
 }
 
-function settings() {
-  const s = {};
-  for (const line of read("content/settings.txt").split("\n")) {
-    if (/^\s*(#|$)/.test(line)) continue;
-    const i = line.indexOf(":");
-    if (i < 0) continue;
-    s[line.slice(0, i).trim()] = line.slice(i + 1).trim();
-  }
-  return s;
-}
+// The words, as saved by Pages CMS (or by hand). Missing keys are fine.
+const json = (f) => JSON.parse(read("content/" + f));
+const s = json("settings.json");
+const page = json("page.json");
+const str = (v) => (v == null ? "" : String(v));
 
 function steps() {
-  return read("content/how-it-works.md")
-    .replace(/\r/g, "")
-    .split(/^##\s+/m)
-    .map((b) => b.trim())
-    .filter(Boolean)
-    .map((b) => {
-      const [title, ...rest] = b.split("\n");
-      return `<li><h3>${inline(title)}</h3><div class="step-body">${markdown(rest.join("\n"))}</div></li>`;
-    })
+  return json("steps.json")
+    .map((st) => `<li><h3>${inline(str(st.title))}</h3><div class="step-body">${markdown(str(st.body))}</div></li>`)
     .join("\n");
 }
 
 function events() {
-  return read("content/events.txt")
-    .split("\n")
-    .filter((l) => l.trim() && !l.trim().startsWith("#"))
-    .map((l) => {
-      const [date = "", time = "", name = "", place = "", tag = ""] = l.split("|").map((p) => p.trim());
+  return json("events.json")
+    .filter((ev) => str(ev.name).trim() || str(ev.date).trim())
+    .map((ev) => {
+      const time = str(ev.time).trim(), place = str(ev.place).trim(), tag = str(ev.tag).trim();
       return `<li class="event">
-  <div class="event-when">${inline(date)}${time ? `<span>${inline(time)}</span>` : ""}</div>
-  <div class="event-what"><span class="event-name">${inline(name)}</span>${place ? `<span class="event-place">${inline(place)}</span>` : ""}</div>
+  <div class="event-when">${inline(str(ev.date))}${time ? `<span>${inline(time)}</span>` : ""}</div>
+  <div class="event-what"><span class="event-name">${inline(str(ev.name))}</span>${place ? `<span class="event-place">${inline(place)}</span>` : ""}</div>
   ${tag ? `<span class="event-tag">${inline(tag)}</span>` : ""}
 </li>`;
     })
     .join("\n");
 }
 
+// A heading plus paragraphs, for the boxes that have both.
+const titled = (heading, body, level) =>
+  (str(heading).trim() ? `<h${level}>${inline(str(heading))}</h${level}>\n` : "") + markdown(str(body));
+
 // ---- assemble ----
 
-const s = settings();
-const link = (url) => escape(url);
+const link = (url) => escape(str(url).trim());
 
 const calendarLinks = [
-  s.calendar_pdf && `<a href="${link(s.calendar_pdf)}">Print the calendar (PDF)</a>`,
-  s.add_event_link && `<a href="${link(s.add_event_link)}">Add your event</a>`,
+  str(s.calendar_pdf).trim() && `<a href="${link(s.calendar_pdf)}">Print the calendar (PDF)</a>`,
+  str(s.add_event_link).trim() && `<a href="${link(s.add_event_link)}">Add your event</a>`,
 ].filter(Boolean);
 
-const signup = s.signup_action
+const signup = str(s.signup_action).trim()
   ? `<form class="signup" action="${link(s.signup_action)}" method="post">
   <label for="email">Your email</label>
   <input id="email" name="email" type="email" placeholder="you@example.com" required>
@@ -98,11 +89,11 @@ const signup = s.signup_action
 </form>`
   : `<p class="soon">Signups open soon.</p>`;
 
-const description = read("content/intro.md").trim().replace(/\[|\]|\(.*?\)|\*/g, "");
+const description = str(page.intro).trim().replace(/\[|\]|\(.*?\)|\*/g, "");
 
 // Coming soon: blur the page and put the sign over it. Team members who
 // enter the password see the real page (functions/_middleware.js).
-const soon = /^(on|yes|true)$/i.test(s.coming_soon || "");
+const soon = s.coming_soon === true || /^(on|yes|true)$/i.test(str(s.coming_soon));
 const comingSoon = soon
   ? `<div id="coming-soon" class="soon-cover">
   <div class="sign" role="dialog" aria-modal="true" aria-labelledby="sign-title">
@@ -110,7 +101,7 @@ const comingSoon = soon
     <span class="tape tape-right" aria-hidden="true"></span>
     <p class="eyebrow">Minneapolis · Saint Paul</p>
     <p id="sign-title" class="sign-title">Twin Cities Offline</p>
-    <div class="sign-text">${markdown(read("content/coming-soon.md"), 2)}</div>
+    <div class="sign-text">${titled(page.coming_soon_heading, page.coming_soon_body, 2)}</div>
     <form class="team" action="/__team" method="post">
       <label for="team-password">On the team? Enter the password</label>
       <div class="team-row">
@@ -123,30 +114,31 @@ const comingSoon = soon
 </div>`
   : "";
 
+const signal = str(s.signal_link).trim();
 const values = {
   robots: soon ? `<meta name="robots" content="noindex">` : "",
   body_class: soon ? ` class="is-soon"` : "",
   main_attrs: soon ? ` inert aria-hidden="true"` : "",
   coming_soon: comingSoon,
   description: escape(description),
-  eyebrow: inline(s.eyebrow || ""),
-  intro: markdown(read("content/intro.md")),
-  signal_pill: s.signal_link ? `<a class="pill" href="${link(s.signal_link)}">Join the Signal group</a>` : "",
-  cohort: markdown(read("content/cohort.md"), 2),
-  cohort_button: s.cohort_link ? `<a class="pill" href="${link(s.cohort_link)}">Save me a spot</a>` : "",
+  eyebrow: inline(str(s.eyebrow)),
+  intro: markdown(str(page.intro)),
+  signal_pill: signal ? `<a class="pill" href="${link(signal)}">Join the Signal group</a>` : "",
+  cohort: titled(page.cohort_heading, page.cohort_body, 2),
+  cohort_button: str(s.cohort_link).trim() ? `<a class="pill" href="${link(s.cohort_link)}">Save me a spot</a>` : "",
   steps: steps(),
-  calendar_note: s.calendar_note ? `<span class="calendar-note">${inline(s.calendar_note)}</span>` : "",
+  calendar_note: str(s.calendar_note).trim() ? `<span class="calendar-note">${inline(str(s.calendar_note))}</span>` : "",
   events: events(),
   calendar_links: calendarLinks.length ? `<p class="calendar-links">${calendarLinks.join(" · ")}</p>` : "",
-  bulletin: markdown(read("content/bulletin.md"), 3),
+  bulletin: titled(page.bulletin_heading, "", 3),
   signup,
-  group_chat: markdown(read("content/group-chat.md")),
-  signal_button: s.signal_link
-    ? `<a class="pill pill-ink" href="${link(s.signal_link)}">Join on Signal</a>`
+  group_chat: markdown(str(page.group_chat)),
+  signal_button: signal
+    ? `<a class="pill pill-ink" href="${link(signal)}">Join on Signal</a>`
     : `<p class="soon">Link coming soon.</p>`,
-  note: markdown(read("content/note.md")),
-  why: markdown(read("content/why.md")),
-  contact: s.contact_email ? ` · <a href="mailto:${link(s.contact_email)}">${escape(s.contact_email)}</a>` : "",
+  note: markdown(str(page.note)),
+  why: markdown(str(page.why)),
+  contact: str(s.contact_email).trim() ? ` · <a href="mailto:${link(s.contact_email)}">${escape(str(s.contact_email).trim())}</a>` : "",
 };
 
 let html = read("template.html");
