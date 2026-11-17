@@ -28,14 +28,15 @@ function redirect(location, headers = {}) {
 
 export async function onRequest({ request, env, next }) {
   const url = new URL(request.url);
-  const password = env.SITE_PASSWORD || "";
+  const password = String(env.SITE_PASSWORD || "").trim();
 
   // The password form on the sign posts here.
   if (url.pathname === "/__team") {
     if (request.method !== "POST") return redirect("/");
     const form = await request.formData();
-    const given = String(form.get("password") || "");
-    if (password && sameText(given, password)) {
+    const given = String(form.get("password") || "").trim();
+    if (!password) return redirect("/?team=unset"); // SITE_PASSWORD missing in Cloudflare
+    if (sameText(given, password)) {
       const cookie = `${COOKIE}=${await teamToken(password)}; Path=/; Max-Age=${THIRTY_DAYS}; HttpOnly; Secure; SameSite=Lax`;
       return redirect("/", { "Set-Cookie": cookie });
     }
@@ -56,6 +57,8 @@ export async function onRequest({ request, env, next }) {
       .on("main", { element: (el) => { el.removeAttribute("inert"); el.removeAttribute("aria-hidden"); } });
   } else if (url.searchParams.get("team") === "wrong") {
     rewriter = rewriter.on("#team-wrong", { element: (el) => el.removeAttribute("hidden") });
+  } else if (url.searchParams.get("team") === "unset") {
+    rewriter = rewriter.on("#team-unset", { element: (el) => el.removeAttribute("hidden") });
   }
 
   const page = rewriter.transform(response);
