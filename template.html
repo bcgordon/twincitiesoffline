@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Twin Cities Offline</title>
+<meta name="description" content="{{description}}">
+{{robots}}
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="preload" href="/fonts/bricolage-grotesque.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="/styles.css">
+</head>
+<body{{body_class}}>
+{{coming_soon}}
+<div class="ribbon" aria-hidden="true"></div>
+<main class="page"{{main_attrs}}>
+
+  <header class="top">
+    <p class="eyebrow">{{eyebrow}}</p>
+    <h1>Twin Cities Offline</h1>
+    <div class="intro">{{intro}}</div>
+    <nav class="pills" aria-label="On this page">
+      <a class="pill pill-solid" href="#cohort">Join the next month</a>
+      <a class="pill" href="#calendar">See what's on</a>
+      {{signal_pill}}
+    </nav>
+  </header>
+
+  <section id="cohort" class="cohort">
+    <div class="cohort-text">
+      <p class="eyebrow eyebrow-light">Next cohort</p>
+      {{cohort}}
+    </div>
+    {{cohort_button}}
+  </section>
+
+  <section class="how">
+    <h2 class="ruled">How the month works</h2>
+    <ol class="steps">
+      {{steps}}
+    </ol>
+  </section>
+
+  <div class="split">
+    <section id="calendar" class="calendar">
+      <div class="ruled calendar-head">
+        <h2>Coming up</h2>
+        {{calendar_note}}
+      </div>
+      <ul class="events">
+        {{events}}
+      </ul>
+      {{calendar_links}}
+    </section>
+
+    <aside class="side">
+      <div class="card">
+        <p class="eyebrow">The bulletin</p>
+        {{bulletin}}
+        {{signup}}
+      </div>
+      <div class="card">
+        <p class="eyebrow eyebrow-ink">The group chat</p>
+        <div class="card-body">{{group_chat}}</div>
+        {{signal_button}}
+      </div>
+    </aside>
+  </div>
+
+  <section class="note">
+    <h2>A note from us</h2>
+    <div class="sheet typed">
+      {{note}}
+    </div>
+  </section>
+
+  <section class="why">
+    <h2>Why we're doing this</h2>
+    <div class="why-text">
+      {{why}}
+    </div>
+  </section>
+
+  <footer class="foot">
+    <span>Twin Cities Offline · twincitiesoffline.com{{contact}}</span>
+    <span>Part of <a href="https://offline.community">Month Offline</a> · phones from <a href="https://dumb.co">dumb.co</a></span>
+  </footer>
+</main>
+</body>
+</html>
