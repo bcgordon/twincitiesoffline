@@ -109,6 +109,7 @@ const comingSoon = soon
         <button type="submit">Let me in</button>
       </div>
       <p id="team-wrong" class="team-wrong" hidden>That's not it. Try again.</p>
+      <p id="team-unset" class="team-wrong" hidden>The team password isn't set up on the site yet. (Cloudflare: add the SITE_PASSWORD secret, then redeploy.)</p>
     </form>
   </div>
 </div>`
