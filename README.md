@@ -56,7 +56,7 @@ Colors are typewriter, ink and paper. They're listed at the top of `site/styles.
 | Pen ink | `#23395D` | links, second accent |
 | Graphite | `#57534B` | small print |
 
-Type is Bricolage Grotesque for headings and text, IBM Plex Mono for small labels, Archivo for buttons, and American Typewriter for the typed parts. Special Elite stands in for American Typewriter on computers that don't have it.
+Type is American Typewriter throughout. Apple devices have it built in; everyone else sees Special Elite, a free typewriter face stored in the repo (see `FONTS.md`).
 
 ## Hosting (Cloudflare Pages)
 
